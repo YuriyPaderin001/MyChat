@@ -1,0 +1,54 @@
+﻿<div *ngIf="currentState == State.MessageListShowing" class="container my-4">
+    <h1>{{chat?.name}}</h1>
+
+    <div *ngFor="let mes of messages">
+        <div *ngIf="mes.senderId == user.id" class="text-right">
+            <h5>{{mes.sendingDateTime | date:"Вы dd.MM.yyyy в HH:mm"}}</h5>
+            <div class="row mx-0 justify-content-end">
+                <div class="bg-success rounded px-3 text-white">{{mes.content}}</div>
+            </div>
+            <div *ngIf="attachmentsMap.has(mes.id)">
+                <div *ngFor="let attachment of attachmentsMap.get(mes.id)">
+                    <a href="{{attachment?.path}}" target="_blank">Вложение</a>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="mes.senderId != user.id" class="text-left">
+            <h5 id="message{{mes.id}}">
+                <span *ngIf="sendersMap.get(mes.senderId) != null">
+                    {{sendersMap.get(mes.senderId).lastName + ' ' + sendersMap.get(mes.senderId).firstName}}{{mes.sendingDateTime | date:" dd.MM.yyyy в HH:mm"}}
+                </span>
+                <span *ngIf="sendersMap.get(mes.senderId) == null">
+                    loading
+                </span>
+            </h5>
+            <div class="row mx-0">
+                <div class="bg-primary rounded px-3 text-white">{{mes.content}}</div>
+            </div>
+            <div *ngIf="attachmentsMap.has(mes.id)">
+                <div *ngFor="let attachment of attachmentsMap.get(mes.id)">
+                    <a href="{{attachment?.path}}" target="_blank">Вложение</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input id="file" style="display: none" type="file" (change)="onFileSelected($event.target.files)" #fileInput multiple/>
+    <div class="row mt-3 mb-3">
+        <input type="text" class="form-control ml-3 col" [(ngModel)]="message.content" placeholder="Введите сообщение" />
+        <div class="btn-group col-auto">
+            <button (click)="sendMessage()" class="btn btn-primary">Отправить</button>
+            <button (click)="fileInput.click()" class="btn btn-secondary">Прикрепить файл</button>
+        </div>
+    </div>
+    <div *ngFor="let file of selectedFiles" class="row mx-0">
+        <div>{{file.name}}</div>
+    </div>
+
+    <div class="text-right">
+        <div class="btn-group pull-right">
+            <button (click)="exit()" class="btn btn-primary">К списку чатов</button>
+            <button (click)="logout()" class="btn btn-secondary">Выйти</button>
+        </div>
+    </div>
+</div>

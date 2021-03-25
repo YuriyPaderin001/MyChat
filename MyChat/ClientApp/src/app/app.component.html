@@ -1,0 +1,5 @@
+﻿<account-component *ngIf="currentState == State.AccountComponentShowing" (onUserAuthorizated)="onUserAuthorizated($event)"></account-component>
+
+<chat-component *ngIf="currentState == State.ChatComponentShowing" [user]="authorizatedUser" (onChatSelected)="onChatSelected($event)" (onLogout)="logout()"></chat-component>
+
+<message-component *ngIf="currentState == State.MessageComponentShowing" [user]="authorizatedUser" [chat]="selectedChat" (onExit)="onExitFromChat()" (onLogout)="logout()"></message-component>

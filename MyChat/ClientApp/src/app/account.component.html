@@ -1,0 +1,57 @@
+﻿<div *ngIf="currentState == State.AuthorizationPageShowing;" class="container col-md-6">
+    <h1>Авторизация</h1>
+    <div class="form-group">
+        <label for="inputLogin">Логин</label>
+        <input type="text" [(ngModel)]="loginData.login" class="form-control" id="inputLogin" placeholder="Логин" />
+    </div>
+    <div class="form-group">
+        <label for="inputPassword">Пароль</label>
+        <input type="password" [(ngModel)]="loginData.password" class="form-control" id="inputPassword" placeholder="Пароль" />
+    </div>
+    <ng-template [ngIf]="errorMessage != null">
+        <div class="form-group text-danger">{{errorMessage}}</div>
+    </ng-template>
+    <div class="text-right">
+        <div class="btn-group">
+            <button (click)="authorizate()" class="btn btn-primary">Войти</button>
+            <button (click)="showRegistrationPage()" class="btn btn-secondary">Создать аккаунт</button>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="currentState == State.RegistrationPageShowing;" class="container col-md-6">
+    <h1>Регистрация</h1>
+    <div class="form-group">
+        <label for="inputLastName">Фамилия</label>
+        <input type="text" [(ngModel)]="user.lastName" class="form-control" id="inputLastName" placeholder="Фамилия" />
+    </div>
+    <div class="form-group">
+        <label for="inputFirstName">Имя</label>
+        <input type="text" [(ngModel)]="user.firstName" class="form-control" id="inputFirstName" placeholder="Имя" />
+    </div>
+    <div class="form-group">
+        <label for="inputMiddleName">Отчество</label>
+        <input type="text" [(ngModel)]="user.middleName" class="form-control" id="inputMiddleName" placeholder="Отчество" />
+    </div>
+    <div class="form-group">
+        <label for="inputLogin">Логин</label>
+        <input type="text" [(ngModel)]="user.login" class="form-control" id="inputLogin" placeholder="Логин" />
+    </div>
+    <div class="form-group">
+        <label for="inputPassword">Пароль</label>
+        <input type="password" [(ngModel)]="user.password" class="form-control" id="inputPassword" placeholder="Пароль" />
+    </div>
+    <div class="form-group">
+        <label for="inputConfirmPassword">Подтверждение пароля</label>
+        <input type="password" [(ngModel)]="confirmPassword" class="form-control" id="inputConfirmPassword" placeholder="Подтверждение пароля" />
+    </div>
+    <ng-template [ngIf]="errorMessage != null">
+        <div class="form-group text-danger">{{errorMessage}}</div>
+    </ng-template>
+    <div class="text-right">
+        <div class="btn-group">
+            <button (click)="registrate()" class="btn btn-primary">Зарегистрироваться</button>
+            <button (click)="showAuthorizationPage()" class="btn btn-secondary">Отмена</button>
+        </div>
+    </div>
+</div>

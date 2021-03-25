@@ -1,0 +1,85 @@
+﻿<div *ngIf="currentState == State.ChatListShowing" class="container col-md-8">
+    <h1>Чаты</h1>
+    <table class="table table-striped">
+        <tr *ngFor="let c of chats" class="row mx-0">
+            <td class="col" (click)="selectChat(c)"><h5>{{c?.name}}</h5></td>
+            <td class="col-auto">
+                <div *ngIf="c?.creatorId != 1" class="btn-group">
+                    <button *ngIf="c?.creatorId == user?.id" class="btn btn-sm btn-primary" (click)="showChatEditionPage(c)">Изменить</button>
+                    <buttom class="btn btn-sm btn-danger" (click)="leaveChat(c)">Выйти из чата</buttom>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <div class="text-right">
+        <div class="btn-group">
+            <button (click)="showChatCreationPage()" class="btn btn-primary">Создать чат</button>
+            <button (click)="logout()" class="btn btn-secondary">Выйти</button>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="currentState == State.ChatCreating;" class="container col-md-8">
+    <h1>Создание чата</h1>
+    <div class="form-group">
+        <input type="text" [(ngModel)]="chat.name" class="form-control" id="inputChatName" placeholder="Название чата" />
+    </div>
+    <ng-template [ngIf]="errorMessage != null">
+        <div class="form-group text-danger">{{errorMessage}}</div>
+    </ng-template>
+
+    <h2>Пользователи</h2>
+    <table class="table table-striped">
+        <tr *ngFor="let usr of users" class="row mx-0">
+            <td *ngIf="usr?.id != 1 && usr?.id != user.id" class="col">{{usr.lastName + ' ' + usr.firstName + ' ' + usr.middleName}}</td>
+            <td *ngIf="usr?.id != 1 && usr?.id != user.id" class="col-auto">
+                <div *ngIf="!hasUserMarkToAdd(usr)">
+                    <button class="btn btn-sm btn-primary" (click)="markUserToAdd(usr)">Добавить</button>
+                </div>
+                <div *ngIf="hasUserMarkToAdd(usr)">
+                    <button class="btn btn-sm btn-danger" (click)="markUserToDelete(usr)">Удалить</button>
+                </div> 
+            </td>
+        </tr>
+    </table>
+
+    <div class="text-right">
+        <div class="btn-group">
+            <button (click)="createChat()" class="btn btn-primary">Создать</button>
+            <button (click)="showChatListPage()" class="btn btn-secondary">Отмена</button>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="currentState == State.ChatEditing;" class="container col-md-8">
+    <h1>Редактирование чата</h1>
+    <div class="form-group">
+        <input type="text" [(ngModel)]="chat.name" class="form-control" id="inputChatName" placeholder="Название чата" />
+    </div>
+    <ng-template [ngIf]="errorMessage != null">
+        <div class="form-group text-danger">{{errorMessage}}</div>
+    </ng-template>
+
+    <h2>Пользователи</h2>
+    <table class="table table-striped">
+        <tr *ngFor="let usr of users" class="row mx-0">
+            <td *ngIf="usr?.id != 1 && usr?.id != user.id" class="col">{{usr.lastName + ' ' + usr.firstName + ' ' + usr.middleName}}</td>
+            <td *ngIf="usr?.id != 1 && usr?.id != user.id" class="col-auto">
+                <div *ngIf="!isSelectedUser(usr)">
+                    <button class="btn btn-sm btn-primary" (click)="markUserToAdd(usr)">Добавить</button>
+                </div>
+                <div *ngIf="isSelectedUser(usr)">
+                    <button class="btn btn-sm btn-danger" (click)="markUserToDelete(usr)">Удалить</button>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <div class="text-right">
+        <div class="btn-group">
+            <button (click)="updateChat()" class="btn btn-primary">Сохранить</button>
+            <button (click)="showChatListPage()" class="btn btn-secondary">Отмена</button>
+        </div>
+    </div>
+</div>

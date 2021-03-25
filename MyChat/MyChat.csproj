@@ -1,0 +1,86 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+		<SpaRoot>ClientApp\</SpaRoot>
+		<NoWin32Manifest>true</NoWin32Manifest>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Content Remove="$(SpaRoot)**" />
+		<None Remove="$(SpaRoot)**" />
+		<None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="ClientApp\src\app\chat.ts" />
+	  <None Remove="ClientApp\src\app\data.service.ts" />
+	  <None Remove="ClientApp\src\app\login.data.ts" />
+	  <None Remove="ClientApp\src\app\message.ts" />
+	  <None Remove="ClientApp\src\app\models\chat.ts" />
+	  <None Remove="ClientApp\src\app\repositories\attachment.repository.ts" />
+	  <None Remove="ClientApp\src\app\repositories\chat.member.repository.ts" />
+	  <None Remove="ClientApp\src\app\repositories\chat.repository.ts" />
+	  <None Remove="ClientApp\src\app\repositories\message.repository.ts" />
+	  <None Remove="ClientApp\src\app\repositories\session.repository.ts" />
+	  <None Remove="ClientApp\src\app\repositories\user.repository.ts" />
+	  <None Remove="ClientApp\src\app\signalr.service.ts" />
+	  <None Remove="ClientApp\src\app\user.ts" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <TypeScriptCompile Remove="ClientApp\src\app\models\attachment.ts" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.1.0" />
+		<PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.4" />
+		<PackageReference Include="Microsoft.TypeScript.MSBuild" Version="4.2.3">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
+		<PackageReference Include="System.Management" Version="5.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Reference Include="MySql.Data">
+	    <HintPath>..\..\..\..\..\..\Program Files (x86)\MySQL\Connector NET 8.0\Assemblies\v4.5.2\MySql.Data.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <TypeScriptCompile Update="ClientApp\src\app\models\login.data.ts">
+	    <SubType>Code</SubType>
+	  </TypeScriptCompile>
+	  <TypeScriptCompile Update="ClientApp\src\app\repositories\message.repository.ts">
+	    <SubType>Code</SubType>
+	  </TypeScriptCompile>
+	  <TypeScriptCompile Update="ClientApp\src\app\repositories\session.repository.ts">
+	    <SubType>Code</SubType>
+	  </TypeScriptCompile>
+	  <TypeScriptCompile Update="ClientApp\src\app\repositories\user.repository.ts">
+	    <SubType>Code</SubType>
+	  </TypeScriptCompile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="wwwroot\doc\" />
+	  <Folder Include="wwwroot\img\" />
+	</ItemGroup>
+
+	<Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
+		<Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+		<Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --prod" />
+		
+		<ItemGroup>
+			<DistFiles Include="$(SpaRoot)dist\**; $(SpaRoot)dist-server\**" />
+			<ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+				<RelativePath>%(DistFiles.Identity)</RelativePath>
+				<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+				<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+			</ResolvedFileToPublish>
+		</ItemGroup>
+	</Target>
+</Project>
